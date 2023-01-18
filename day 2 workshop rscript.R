@@ -70,7 +70,22 @@ right_join(gapmind_data_2007, c02_emissions)
 
 wd
 
-write_csv(joined_c02_pop, file = "joined_c02_pop")
+write_csv(joined_c02_pop, file = "joined_c02_pop.csv")
+
+write.csv(joined_c02_pop, file = "joined_c02_pop.csv")
+
 
 getwd()
 
+join_c02_pop<-read.csv("joined_c02_pop.csv")
+gdp_c02_plot<-ggplot(data = join_c02_pop) +
+  aes(x =gdpPercap, y=per_capita_emissions)+
+  labs(x="GDP (per capita")+ geom_point()+
+  labs(y="c02 emitted (per capita)",
+       title="There is a strong association between a nation's GDP \nand the amount of CO2 it produces")+
+  geom_smooth(method = "lm", se=FALSE)+
+  ggpubr::stat_regline_equation(aes(label = after_stat(rr.label)))
+
+ggsave(gdp_c02_plot, filename = "un-report/gdp_c02_plot.png", height = 4,width = 6, units= "in")
+
+install.packages("ggpubr")  

@@ -35,6 +35,8 @@ gapminder_1997%>%
   select(country, continent, year, lifeExp)%>%
   pivot_wider(names_from = year, values_from = lifeExp)
 
+
+
 gapminder_1997%>%
   select(continent, country, year, lifeExp)%>%
   pivot_wider(names_from = year, values_from = lifeExp)%>%
@@ -56,11 +58,19 @@ c02_emissions <-co2_emissions_dirty%>%
 #store as an object with a descriptive name
     filter(year==2005)%>%
   select(-year)
-gapmind_data_2007 <- read_csv("un-report/gapminder_data.csv")%>%
+gapmind_data_2007 <- read_csv("gapminder_data.csv")%>%
   filter(year==2007)%>%
   select(country, pop, lifeExp, gdpPercap)
-inner_join(c02_emissions, gapmind_data_2007, by = "country")
+joined_c02_pop<-inner_join(c02_emissions, gapmind_data_2007, by = "country")
 anti_join(c02_emissions, gapmind_data_2007, by = "country")
 anti_join(gapmind_data_2007, c02_emissions)
 full_join(gapmind_data_2007, c02_emissions)
-print(n = 183)
+left_join(c02_emissions,gapmind_data_2007)
+right_join(gapmind_data_2007, c02_emissions)
+
+wd
+
+write_csv(joined_c02_pop, file = "joined_c02_pop")
+
+getwd()
+
